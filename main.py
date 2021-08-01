@@ -2,7 +2,7 @@ from fastapi import FastAPI, status, Request
 from fastapi.middleware.cors import CORSMiddleware
 from pymongo import MongoClient
 
-from models import Product, Category
+# from models import Product, Category
 # import motor.motor_asyncio
 from bson.objectid import ObjectId
 from bson import json_util

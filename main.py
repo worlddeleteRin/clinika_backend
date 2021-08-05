@@ -1,6 +1,6 @@
+import uvicorn
 from fastapi import FastAPI, status, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pymongo import MongoClient
 
 # from models import Product, Category
 # import motor.motor_asyncio
@@ -8,18 +8,31 @@ from bson.objectid import ObjectId
 from bson import json_util
 import json
 
+# routes importing
+from routers import comments, contact, services, staff_members
+# eof routes importing
 
-
-db_host = "192.168.1.145"
-db_port = "27017"
-db_username = "admin"
-db_password = "343845"
-
-db_client = MongoClient("mongodb://{}:{}@{}".format(db_username, db_password, db_host))
-# db_client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://{}:{}@{}".format(db_username, db_password, db_host))
+# import database
+from database import setup_mongodb
 
 
 app = FastAPI()
+app.include_router(comments.router)
+app.include_router(contact.router)
+app.include_router(services.router)
+app.include_router(staff_members.router)
+
+@app.on_event('startup')
+async def startup_db_client():
+	setup_mongodb(app)
+	print('now app is', app)
+	print('app mongo db is', app.mongodb)
+@app.on_event('shutdown')
+async def shutdown_db_client():
+	app.mongodb_client.close()
+
+
+
 # setting up app cors
 app.add_middleware(
 	CORSMiddleware,
@@ -33,3 +46,11 @@ def get_status():
 	""" Get status of server """
 	return {"status": "running"}
 
+
+if __name__ == "__main__":
+	uvicorn.run(
+		"main:app",
+		host='0.0.0.0',
+		reload=True,
+		port=8000,
+	)

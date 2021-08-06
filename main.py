@@ -9,18 +9,19 @@ from bson import json_util
 import json
 
 # routes importing
-from routers import comments, contact, services, staff_members
+from routers import comments, contact, services, staff_members, stock
 # eof routes importing
 
 # import database
 from database import setup_mongodb
 
-
+# include all necessary routes
 app = FastAPI()
 app.include_router(comments.router)
 app.include_router(contact.router)
 app.include_router(services.router)
 app.include_router(staff_members.router)
+app.include_router(stock.router)
 
 @app.on_event('startup')
 async def startup_db_client():

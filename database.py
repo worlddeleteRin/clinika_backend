@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 from pymongo import MongoClient
+from .secure import db_host, db_port, db_username, db_password, database_name
 
 
-db_host = "192.168.1.110"
-db_port = "27017"
-db_username = "admin"
-db_password = "343845"
-database_name = 'miraclinic'
+# db_host = ""
+#db_port = ""
+#db_username = ""
+#db_password = ""
+#database_name = ''
 
 # db_client = motor.motor_asyncio.AsyncIOMotorClient("mongodb://{}:{}@{}".format(db_username, db_password, db_host))
 def setup_mongodb(app: FastAPI) -> None:

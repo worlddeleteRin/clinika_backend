@@ -1,2 +1,4 @@
 *.swp
 secure.py
+__pycache__
+**/__pycache__

@@ -14,7 +14,7 @@ router = APIRouter(
 @router.get("/")
 async def get_comments(request: Request):
 ##	print('request is', request.app.mongodb)
-	comments = request.app.mongodb["comments"].find({}).sort("created_at", -1)
+	comments = request.app.mongodb["comments"].find({}).sort("created_at", -1).limit(10)
 	comments = json.loads(dumps(comments))
 #	print('comments are', comments)
 	return {
